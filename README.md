@@ -13,6 +13,32 @@ The package allows an integration tool to submit an iOS build to your server - w
 
 Note, since iOS 9, over-the-air distribution requires the https protocol or installation will fail.
 
+## Installation
+
+Require this package with composer:
+
+```shell
+composer require "pavankataria/laravel-ota-distribution-ios":"dev-master"
+```
+
+After updating composer, add the ServiceProvider to the providers array in config/app.php
+
+### Laravel 5.x:
+
+```php
+PavanKataria\OtaDistributionIos\ServiceProvider::class,
+```
+
+Run the publish command to finish with the installation, copy the views to the views vendor directory. The routes that serve the build use these views.
+
+```shell
+php artisan vendor:publish --provider="PavanKataria\OtaDistributionIos\ServiceProvider"
+```
+
+### Lumen:
+
+For Lumen, register a different Provider in `bootstrap/app.php`:
+
 ### License
 
 The Laravel OTA Distribution for iOS package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
