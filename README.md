@@ -2,8 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Total Downloads][ico-downloads]][link-downloads]
+<!-- [![Build Status][ico-travis]][link-travis]
+[![Total Downloads][ico-downloads]][link-downloads]-->
 
 The package creates the necessary files and routes on your server to cater for the upload of iOS .ipa files and provision the installation of those builds on iOS devices.
 
