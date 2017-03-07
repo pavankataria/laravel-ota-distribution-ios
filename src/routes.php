@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pavankataria
- * Date: 07/03/2017
- * Time: 01:35
- */
+
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 
 Route::get('hello', function(){
     echo "hello";
 });
-Route::post('/build', function () {
+
+Route::post('/api/build', function () {
     $buildUrlRoute = secure_url('api/build');
     $publicUrl = secure_url('/');
     $branch = Input::get('branch');
@@ -27,9 +25,9 @@ Route::post('/build', function () {
     $pathToBuildDirectory = "builds";
 
 
-    if(! in_array($branch, ['master', 'staging'])){
-        abort(403);
-    }
+//    if(! in_array($branch, ['master', 'staging'])){
+//        abort(403);
+//    }
 
     $iosManifestFileContents = view('ota-distribution-ios::ios-manifest')
         ->with('buildUrlRoute', $buildUrlRoute)
@@ -58,7 +56,7 @@ Route::post('/build', function () {
 });
 
 
-Route::get('/build', function(){
+Route::get('/api/build', function(){
     $directory = "builds/latest";
     $buildFile = Storage::exists("{$directory}/build.ipa");
     if ($buildFile == false) {
@@ -68,7 +66,7 @@ Route::get('/build', function(){
     return Storage::get("{$directory}/download.html");
 });
 
-Route::get('/manifest', function() {
+Route::get('/api/manifest', function() {
 //    $environment = env('APP_ENV');
 //    return Storage::get("builds/{$environment}/manifest.plist");
     return Storage::get("builds/latest/manifest.plist");
