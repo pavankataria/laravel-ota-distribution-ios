@@ -2,8 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Total Downloads][ico-downloads]][link-downloads]
+<!-- [![Build Status][ico-travis]][link-travis]
+[![Total Downloads][ico-downloads]][link-downloads]-->
 
 The package creates the necessary files and routes on your server to cater for the upload of iOS .ipa files and provision the installation of those builds on iOS devices.
 
@@ -12,6 +12,32 @@ The package creates the necessary files and routes on your server to cater for t
 The package allows an integration tool to submit an iOS build to your server - where you can act as the host - the package’s service provider creates the routes that 1) handle the submission of the build which in turn create the necessary manifest files, views, and the download page required for over the air distribution for ios devices, and routes to download the build using those generated files.
 
 Note, since iOS 9, over-the-air distribution requires the https protocol or installation will fail.
+
+## Installation
+
+Require this package with composer:
+
+```shell
+composer require "pavankataria/laravel-ota-distribution-ios":"dev-master"
+```
+
+After updating composer, add the ServiceProvider to the providers array in config/app.php
+
+### Laravel 5.x:
+
+```php
+PavanKataria\OtaDistributionIos\ServiceProvider::class,
+```
+
+Run the publish command to finish with the installation, copy the views to the views vendor directory. The routes that serve the build use these views.
+
+```shell
+php artisan vendor:publish --provider="PavanKataria\OtaDistributionIos\ServiceProvider"
+```
+
+### Lumen:
+
+For Lumen, register a different Provider in `bootstrap/app.php`:
 
 ### License
 
