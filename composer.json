@@ -1,0 +1,29 @@
+{
+    "name": "pavankataria/laravel-ota-distribution-ios",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/pavankataria/laravel-ota-distribution-ios"
+        }
+    ],
+    "description": "This package creates the html download views and routes required for both uploading ios builds and the creation of manifest files ready for downloading the ios builds.",
+    "keywords": ["laravel", "ota", "ios", "distribution", "over the air", "ipa"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pavan Kataria",
+            "email": "info@pavankataria.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*"
+    },
+        "autoload": {
+        "psr-4" : {
+            "PavanKataria\\OtaDistributionIos\\" : "src/"
+        }
+    }
+}
