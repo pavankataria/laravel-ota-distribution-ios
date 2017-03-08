@@ -12,7 +12,7 @@ Route::post('/api/build', function () {
     echo "\nfile: {$file}";
     echo "\nsize of file: {$file->getSize()}";
     echo "\nbundle version number: " . $bundleVersionNumber;
-    echo "\n";
+
     $appLastUpdated = Carbon::now();
     $pathToBuildDirectory = "builds";
 
@@ -21,24 +21,33 @@ Route::post('/api/build', function () {
         ->with('publicUrl', $publicUrl)
         ->with('bundleVersionNumber', $bundleVersionNumber)
         ->render();
+
     //Render the iOS view
     $iosDownloadFileContents = view('ota-distribution-ios::ios-download')
         ->with('appLastUpdated', $appLastUpdated)
         ->with('appVersion', $bundleVersionNumber)
         ->with('urlToManifestFile', route('builds.manifest'))
         ->render();
+
     //Creates files and places them in a latest folder.
     $latestBuildPath = "{$pathToBuildDirectory}/latest";
     Storage::put("{$latestBuildPath}/manifest.plist", $iosManifestFileContents);
     Storage::put("{$latestBuildPath}/download.html", $iosDownloadFileContents);
     $file->storeAs("{$latestBuildPath}", "build.ipa");
+    
     //Makes duplicate files in a separate bundle version folder for versioning.
     $bundleVersionPath = "{$pathToBuildDirectory}/{$bundleVersionNumber}";
     Storage::put("{$bundleVersionPath}/manifest.plist", $iosManifestFileContents);
     Storage::put("{$bundleVersionPath}/download.html", $iosDownloadFileContents);
     $file->storeAs($bundleVersionPath, "build.ipa");
 });
-
+/**
+ * A call to this request will search the directory for existing installable builds
+ * and displays a message if none are found. If a build is found then a download
+ * link is shown allowing the user to install the app from their iOS devices.
+ *
+ * @return string
+ */
 Route::get('/api/build', function(){
     $directory = "builds/latest";
     $buildFile = Storage::exists("{$directory}/build.ipa");
@@ -49,6 +58,12 @@ Route::get('/api/build', function(){
     return Storage::get("{$directory}/download.html");
 });
 
+/**
+ * This route is exposed so that during installation can make available to the iOS device
+ * users during the installation process.
+ *
+ * @return mixed
+ */
 Route::get('/api/manifest', function() {
     return Storage::get("builds/latest/manifest.plist");
 })->name("builds.manifest");
