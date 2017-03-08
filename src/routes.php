@@ -49,14 +49,24 @@ Route::post('/api/build', function () {
  *
  * @return string
  */
-Route::get('/api/build', function(){
+Route::get('/api/build/download', function(){
+    $directory = "builds/latest";
+    $htmlFile = Storage::exists("{$directory}/download.html");
+    if ($htmlFile == false) {
+        //TODO: Return a view instead
+        return "There are no builds available to download";
+    }
+    return Storage::get($htmlFile);
+});
+
+//TODO: Give this route a name of builds/latest
+Route::get('/build', function() {
     $directory = "builds/latest";
     $buildFile = Storage::exists("{$directory}/build.ipa");
     if ($buildFile == false) {
-        //TODO: Return a view instead
-        return "There are no builds available";
+        return "There currently are no builds available";
     }
-    return Storage::get("{$directory}/download.html");
+    return Storage::get($buildFile);
 });
 
  /**
