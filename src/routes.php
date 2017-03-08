@@ -41,6 +41,7 @@ Route::post('/api/build', function () {
     Storage::put("{$bundleVersionPath}/download.html", $iosDownloadFileContents);
     $file->storeAs($bundleVersionPath, "build.ipa");
 });
+
 /**
  * A call to this request will search the directory for existing installable builds
  * and displays a message if none are found. If a build is found then a download
@@ -58,12 +59,13 @@ Route::get('/api/build', function(){
     return Storage::get("{$directory}/download.html");
 });
 
-/**
- * This route is exposed so that during installation can make available to the iOS device
- * users during the installation process.
- *
- * @return mixed
- */
+ /**
+  * This exposed route is for the iOS installation process which requires the manifest file
+  * to be exposed. This manifest file contains the details for the download of image
+  * urls, and ipa build files.
+  *
+  * @return mixed
+  */
 Route::get('/api/manifest', function() {
     return Storage::get("builds/latest/manifest.plist");
 })->name("builds.manifest");
