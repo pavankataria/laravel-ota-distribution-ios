@@ -34,7 +34,7 @@ Route::post('/api/build', function () {
     Storage::put("{$latestBuildPath}/manifest.plist", $iosManifestFileContents);
     Storage::put("{$latestBuildPath}/download.html", $iosDownloadFileContents);
     $file->storeAs("{$latestBuildPath}", "build.ipa");
-    
+
     //Makes duplicate files in a separate bundle version folder for versioning.
     $bundleVersionPath = "{$pathToBuildDirectory}/{$bundleVersionNumber}";
     Storage::put("{$bundleVersionPath}/manifest.plist", $iosManifestFileContents);
@@ -49,33 +49,37 @@ Route::post('/api/build', function () {
  *
  * @return string
  */
-Route::get('/api/build/download', function(){
+Route::get('/download', function(){
     $directory = "builds/latest";
-    $htmlFile = Storage::exists("{$directory}/download.html");
-    if ($htmlFile == false) {
+    $buildFile = Storage::exists("{$directory}/download.html");
+    if ($buildFile == false) {
         //TODO: Return a view instead
-        return "There are no builds available to download";
+        return "There are no builds available";
     }
-    return Storage::get($htmlFile);
+    return Storage::get("{$directory}/download.html");
 });
 
 //TODO: Give this route a name of builds/latest
-Route::get('/build', function() {
+Route::get('api/build', function() {
     $directory = "builds/latest";
     $buildFile = Storage::exists("{$directory}/build.ipa");
     if ($buildFile == false) {
         return "There currently are no builds available";
     }
-    return Storage::get($buildFile);
+    return Storage::get("{$directory}/build.ipa");
 });
 
- /**
-  * This exposed route is for the iOS installation process which requires the manifest file
-  * to be exposed. This manifest file contains the details for the download of image
-  * urls, and ipa build files.
-  *
-  * @return mixed
-  */
+
+
+//Route::get('/api/builds/latest/download')
+
+/**
+ * This exposed route is for the iOS installation process which requires the manifest file
+ * to be exposed. This manifest file contains the details for the download of image
+ * urls, and ipa build files.
+ *
+ * @return mixed
+ */
 Route::get('/api/manifest', function() {
     return Storage::get("builds/latest/manifest.plist");
 })->name("builds.manifest");
