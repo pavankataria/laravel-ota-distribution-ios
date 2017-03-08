@@ -15,7 +15,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ota-distribution-ios');
 
         $this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/pavankataria/ota-distribution-ios'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/ota-distribution-ios'),
         ]);
     }
 
