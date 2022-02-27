@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "9.*",
+        "illuminate/support": "8.*",
         "nesbot/carbon": "^1.22"
     },
         "autoload": {
